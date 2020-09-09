@@ -1,4 +1,5 @@
 module Rope where
+--Rope data structure
 
 data Rope = 
       Node { left::Rope, right::Rope, weight::Int} 

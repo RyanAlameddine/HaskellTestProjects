@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 14d191dce2ca16d015b2491d589a698f61f2d27aebcef4c435449b7b311aab47
+-- hash: ae43211734f58a38b80069138997ca56d5e34bebd64fb628e0b55d0e59f0167a
 
 name:           HaskellTestProjects
 version:        0.1.0.0
@@ -27,8 +27,10 @@ source-repository head
 
 library
   exposed-modules:
+      JsonParser
       Lib
       Practice
+      ReversePolishCalculator
       Rope
   other-modules:
       Paths_HaskellTestProjects
@@ -37,6 +39,7 @@ library
   build-depends:
       base >=4.7 && <5
     , containers
+    , random
   default-language: Haskell2010
 
 executable HaskellTestProjects-exe
@@ -50,6 +53,7 @@ executable HaskellTestProjects-exe
       HaskellTestProjects
     , base >=4.7 && <5
     , containers
+    , random
   default-language: Haskell2010
 
 test-suite HaskellTestProjects-test
@@ -64,4 +68,5 @@ test-suite HaskellTestProjects-test
       HaskellTestProjects
     , base >=4.7 && <5
     , containers
+    , random
   default-language: Haskell2010
