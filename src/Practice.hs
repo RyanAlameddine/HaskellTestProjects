@@ -4,6 +4,8 @@ import           Data.Char
 import           Data.List
 import qualified Data.Map      as Map
 import           System.Random
+
+import Data.Function ( on )
 --Practice code inspired by Learn You A Haskell for Great Good
 --This is simply my attempt to learn haskell, not an actual project of any sorts
 
@@ -213,6 +215,19 @@ instance Functor BST where
     fmap f EmptyNode = EmptyNode
     fmap f (Node x leftsub rightsub) = Node (f x) (fmap f leftsub) (fmap f rightsub)
 
+
+
+treeSym :: BST a -> Bool
+treeSym EmptyNode = True
+treeSym (Node _ l r) = sym l r 
+
+sym :: BST a -> BST a -> Bool
+sym EmptyNode EmptyNode = True
+sym (Node _ l1 r1) (Node _ l2 r2) 
+    | sym l1 r2 && sym r1 l2 = True
+sym _ _ = False
+
+
 -- >>> foldr treeInsert EmptyNode [8,6,4,1,7,3,5]
 -- Node 5 (Node 3 (Node 1 EmptyNode EmptyNode) (Node 4 EmptyNode EmptyNode)) (Node 7 (Node 6 EmptyNode EmptyNode) (Node 8 EmptyNode EmptyNode))
 --
@@ -245,3 +260,20 @@ threeCoins gen = (firstCoin, secondCoin, thirdCoin)
         (firstCoin , newGen)  = random gen
         (secondCoin, newGen') = random newGen
         (thirdCoin , _)       = random newGen'
+
+
+-- instance (Monoid w) => Monad (Writer w) where  
+--     return x = Writer (x, mempty)  
+--     (Writer (x,v)) >>= f = let (Writer (y, v')) = f x in Writer (y, v `mappend` v')  
+
+-- >>> runWriter (return 3 :: Writer String Int) 
+-- (3,"")   
+-- >>> runWriter (return 3 :: Writer (Sum Int) Int)  
+-- (3,Sum {getSum = 0}) 
+-- >>> runWriter (return 3 :: Writer (Product Int) Int)
+-- (3,Product {getProduct = 1})  
+
+gcf :: Int -> Int -> Int  
+gcf a b   
+    | b == 0    = a  
+    | otherwise = gcf b (a `mod` b)  

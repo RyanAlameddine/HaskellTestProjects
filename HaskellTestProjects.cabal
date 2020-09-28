@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ae43211734f58a38b80069138997ca56d5e34bebd64fb628e0b55d0e59f0167a
+-- hash: d034d9d8fd0112326723570fed25405502543f99e404679fd6b84cb515820164
 
 name:           HaskellTestProjects
 version:        0.1.0.0
@@ -32,6 +32,8 @@ library
       Practice
       ReversePolishCalculator
       Rope
+      Soundex
+      WordSuggestor
   other-modules:
       Paths_HaskellTestProjects
   hs-source-dirs:
