@@ -1,3 +1,5 @@
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module Practice where
 
 import           Data.Char
@@ -227,6 +229,36 @@ sym (Node _ l1 r1) (Node _ l2 r2)
     | sym l1 r2 && sym r1 l2 = True
 sym _ _ = False
 
+-- checkValid :: (Ord a, Bounded a) => BST a -> Bool
+-- checkValid bst = checkHelper bst minBound maxBound
+
+-- checkHelper :: (Ord a) => BST a -> a -> a -> Bool
+-- checkHelper EmptyNode _ _ = True
+-- checkHelper (Node value leftChild rightChild) lower upper = check (<=) leftChild lower value && check (>) rightChild value upper
+--     where
+--         check condition EmptyNode _ _= True
+--         check condition node@(Node childValue _ _) childLower childUpper = conditionMet && noParentalOverstep && childrenValid
+--             where
+--                 conditionMet = condition childValue value
+--                 noParentalOverstep = childValue > childLower && childValue <= childUpper
+--                 childrenValid = checkHelper node childLower childUpper
+
+checkValid :: (Ord a, Bounded a) => BST a -> Bool
+checkValid bst = checkHelper bst minBound maxBound
+
+checkHelper :: (Ord a) => BST a -> a -> a -> Bool
+checkHelper EmptyNode _ _ = True
+checkHelper (Node value leftChild rightChild) lower upper = check (<=) leftChild lower value && check (>) rightChild value upper
+    where
+        check condition EmptyNode _ _= True
+        check condition node@(Node childValue _ _) childLower childUpper = conditionMet && noParentalOverstep && childrenValid
+            where
+                conditionMet = condition childValue value
+                noParentalOverstep = childValue > childLower && childValue <= childUpper
+                childrenValid = checkHelper node childLower childUpper
+
+infinode :: Int -> BST Int
+infinode i = Node 0 (infinode $ i - 1) EmptyNode 
 
 -- >>> foldr treeInsert EmptyNode [8,6,4,1,7,3,5]
 -- Node 5 (Node 3 (Node 1 EmptyNode EmptyNode) (Node 4 EmptyNode EmptyNode)) (Node 7 (Node 6 EmptyNode EmptyNode) (Node 8 EmptyNode EmptyNode))

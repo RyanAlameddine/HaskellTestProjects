@@ -5,6 +5,9 @@ import Data.Char ()
 import Data.Bifunctor ( Bifunctor(second) )
 import Control.Applicative ( Alternative(..) )
 
+--NOTE: This is my first attempt at a json parser with a parser combinator library I created in this file.
+--      For a better attempt with improved error checking etc, see ParserCombinator.hs in this directory
+
 --parser :: String -> a
 --parser :: String -> (String, a)
 --parser :: String -> Maybe (String, a)
@@ -14,14 +17,7 @@ import Control.Applicative ( Alternative(..) )
 
 -- function from input to Maybe (rest of input, value)
 newtype Parser a = Parser { runParser :: String -> Maybe (String, a) }
-
-
--- instance Functor Parser where
---     fmap f (Parser p) = Parser $ \input -> do
---                     (input', x) <- p input
---                     Just (input', f x)     
-
-             
+   
 instance Functor Parser where
     fmap f (Parser p) = 
         let maybeMap maybeVal = fmap (second f) maybeVal 
@@ -41,7 +37,7 @@ instance Alternative Parser where
 
 
 -- >>> :t runParser
--- runParser :: forall a. Parser a -> String -> Maybe (String, a)
+-- runParser :: Parser a -> String -> Maybe (String, a)
 
 -- takes in a character and returns a parser which parses that character
 char :: Char -> Parser Char
@@ -53,23 +49,13 @@ char x = Parser f
 
 -- takes in a string and returns a parser which parses that string
 string :: String -> Parser String
-string = sequenceA . map char
+string = traverse char --string = sequenceA . map char
 
 digit :: Parser Char
 digit = anyCharOf ['0'..'9']
 
 int :: Parser Integer
 int = read <$> some digit
-
--- spanParser :: (Char -> Bool) -> Parser String
--- spanParser f = Parser $ \input -> 
---                 let (token, rest) = span f input 
---                 in Just (rest, token)
-
--- notEmpty :: Parser [a] -> Parser [a]
--- notEmpty (Parser p) = Parser $ \input -> do
---                         (input', (x:xs)) <- p input
---                         Just (input', (x:xs))
 
 choice :: [Parser a] -> Parser a
 choice = foldl1 (<|>)

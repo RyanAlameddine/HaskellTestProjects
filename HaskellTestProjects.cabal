@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: e7e1fbd5b7d0442d4f147f664e780b3439c7b4fa15e78f25adedb1ab6ade6645
+-- hash: 20cfeacf47318d0e511000056407e332924ac8fbd62255a03406cc2c672d36d0
 
 name:           HaskellTestProjects
 version:        0.1.0.0
@@ -29,6 +29,7 @@ library
   exposed-modules:
       JsonParser
       Lib
+      ParserCombinator
       Practice
       ReversePolishCalculator
       Rope
